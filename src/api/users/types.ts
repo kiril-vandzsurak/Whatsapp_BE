@@ -1,10 +1,11 @@
-import { Model, Document } from "mongoose";
+import { Model, Document, ObjectId } from "mongoose";
 
 interface User {
   name: string;
   email: string;
   password: string;
   avatar?: string;
+  chats?: [type: ObjectId];
 }
 
 export interface UserDocument extends User, Document {}

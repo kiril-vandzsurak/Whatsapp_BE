@@ -6,7 +6,7 @@ const chatsSchema = new Schema(
   {
     members: [{ type: mongoose.Types.ObjectId, required: true, ref: "User" }],
     messages: [
-      { type: mongoose.Types.ObjectId, required: true, ref: "Message" },
+      { type: mongoose.Types.ObjectId, required: false, ref: "Message" },
     ],
   },
   { timestamps: true }

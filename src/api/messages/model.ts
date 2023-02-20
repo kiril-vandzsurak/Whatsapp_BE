@@ -6,8 +6,8 @@ const MessagesSchema = new Schema(
   {
     sender: { type: String, required: true },
     content: {
-      text: { type: String, required: true },
-      media: { type: String, required: true },
+      text: { type: String, required: false },
+      media: { type: String, required: false },
     },
   },
   { timestamps: true }
