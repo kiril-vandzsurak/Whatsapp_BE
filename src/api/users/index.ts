@@ -43,4 +43,56 @@ usersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
   }
 });
 
+usersRouter.get("/:userId", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const user = await UserModel.findById(req.params.userId);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.get("/me", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const user = await UsersModel.findById(req.user._id);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.put("/:userId", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      req.params.userId,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (updatedUser) {
+      res.send(updatedUser);
+    } else {
+      next(
+        createError(404, `Author with id ${req.params.authorId} not found!`)
+      );
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.delete("/:userId", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const deletedUser = await UserModel.findByIdAndDelete(req.params.userId);
+    if (deletedUser) {
+      res.status(204).send();
+    } else {
+      next(
+        createError(404, `Author with id ${req.params.authorId} not found!`)
+      );
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default usersRouter;
