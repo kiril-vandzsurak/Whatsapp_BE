@@ -28,6 +28,7 @@ export const JWTAuthMiddleware: RequestHandler = async (
         _id: payload._id,
         name: payload.name,
       };
+      next();
     } catch (error) {
       console.log(error);
       next(createHttpError(401, "Token not valid!"));
