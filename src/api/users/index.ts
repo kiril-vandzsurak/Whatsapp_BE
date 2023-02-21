@@ -44,6 +44,21 @@ usersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
   }
 });
 
+usersRouter.get(
+  "/me",
+  JWTAuthMiddleware,
+  async (req: UserRequest, res, next) => {
+    console.log("CHEEEEEECKKK!!!!!!!", req.user?._id);
+    try {
+      const user = await UserModel.findById(req.user?._id);
+      console.log("CHEEEEEECKKK!!!!!!!", user);
+      res.send(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 usersRouter.get("/:userId", JWTAuthMiddleware, async (req, res, next) => {
   try {
     const user = await UserModel.findById(req.params.userId);
@@ -52,19 +67,6 @@ usersRouter.get("/:userId", JWTAuthMiddleware, async (req, res, next) => {
     next(error);
   }
 });
-
-usersRouter.get(
-  "/me",
-  JWTAuthMiddleware,
-  async (req: UserRequest, res, next) => {
-    try {
-      const user = await UserModel.findById(req.user?._id);
-      res.send(user);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
 
 usersRouter.put("/:userId", JWTAuthMiddleware, async (req, res, next) => {
   try {
