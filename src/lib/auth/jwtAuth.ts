@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import { RequestHandler, Request } from "express";
+import { RequestHandler, Request, NextFunction, Response } from "express";
 import { verifyAccessToken } from "./tools";
 import { TokenPayload } from "./tools";
 
