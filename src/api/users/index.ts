@@ -3,6 +3,7 @@ import createError from "http-errors";
 import UserModel from "./model";
 import { createAccessToken } from "../../lib/auth/tools";
 import { JWTAuthMiddleware } from "../../lib/auth/jwtAuth";
+import { UserRequest } from "../../lib/auth/jwtAuth";
 
 const usersRouter = express.Router();
 
@@ -52,14 +53,18 @@ usersRouter.get("/:userId", JWTAuthMiddleware, async (req, res, next) => {
   }
 });
 
-// usersRouter.get("/me", JWTAuthMiddleware, async (req, res, next) => {
-//   try {
-//     const user = await UserModel.findById(req.user._id);
-//     res.send(user);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+usersRouter.get(
+  "/me",
+  JWTAuthMiddleware,
+  async (req: UserRequest, res, next) => {
+    try {
+      const user = await UserModel.findById(req.user?._id);
+      res.send(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 usersRouter.put("/:userId", JWTAuthMiddleware, async (req, res, next) => {
   try {
