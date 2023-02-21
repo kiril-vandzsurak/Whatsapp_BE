@@ -48,11 +48,42 @@ usersRouter.get(
   "/me",
   JWTAuthMiddleware,
   async (req: UserRequest, res, next) => {
-    console.log("CHEEEEEECKKK!!!!!!!", req.user?._id);
     try {
       const user = await UserModel.findById(req.user?._id);
-      console.log("CHEEEEEECKKK!!!!!!!", user);
       res.send(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+usersRouter.put(
+  "/me",
+  JWTAuthMiddleware,
+  async (req: UserRequest, res, next) => {
+    try {
+      const updatedUser = await UserModel.findByIdAndUpdate(
+        req.user?._id,
+        req.body,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      res.send(updatedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+usersRouter.delete(
+  "/me",
+  JWTAuthMiddleware,
+  async (req: UserRequest, res, next) => {
+    try {
+      await UserModel.findByIdAndDelete(req.user?._id);
+      res.status(204).send();
     } catch (error) {
       next(error);
     }
