@@ -1,13 +1,13 @@
 import { Model, Document } from "mongoose";
 
-export interface User {
+export interface AppUser {
   name: string;
   email: string;
   password: string;
   avatar?: string;
 }
 
-export interface UserDocument extends User, Document {}
+export interface UserDocument extends AppUser, Document {}
 
 export interface UserModel extends Model<UserDocument> {
   checkCredentials(

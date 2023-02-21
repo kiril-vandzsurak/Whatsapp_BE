@@ -10,7 +10,7 @@ import {
   genericErrorHandler,
 } from "./errorHandlers";
 import usersRouter from "./api/users";
-
+import { AppUser, UserDocument } from "./api/users/types";
 const server = express();
 
 server.use(cors());
@@ -35,3 +35,11 @@ mongoose.connection.on("connected", () => {
     console.log(`Server is running on port ${port}`);
   });
 });
+
+declare global {
+  namespace Express {
+    export interface Request {
+      user?: Partial<UserDocument>;
+    }
+  }
+}
