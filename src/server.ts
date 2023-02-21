@@ -11,12 +11,18 @@ import {
 } from "./errorHandlers";
 import usersRouter from "./api/users";
 import { AppUser, UserDocument } from "./api/users/types";
+import googleStrategy from "./lib/auth/google.js";
+import passport from "passport";
+
 const server = express();
+
+const port = process.env.PORT || 3001;
+
+passport.use("google", googleStrategy);
 
 server.use(cors());
 server.use(express.json());
-
-const port = process.env.PORT || 3001;
+server.use(passport.initialize());
 
 server.use("/users", usersRouter);
 
