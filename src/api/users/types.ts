@@ -5,7 +5,6 @@ interface User {
   email: string;
   password: string;
   avatar?: string;
-  chats?: [type: ObjectId];
 }
 
 export interface UserDocument extends User, Document {}
