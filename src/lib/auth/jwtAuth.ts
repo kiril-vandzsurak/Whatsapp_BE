@@ -3,8 +3,13 @@ import { RequestHandler, Request, NextFunction, Response } from "express";
 import { verifyAccessToken } from "./tools";
 import { TokenPayload } from "./tools";
 
+
 export const JWTAuthMiddleware: RequestHandler = async (req, res, next) => {
   const user = req.user;
+
+export interface UserRequest extends Request {
+  user?: TokenPayload;
+}
 
   if (!req.headers.authorization) {
     next(

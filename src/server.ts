@@ -10,6 +10,8 @@ import {
   genericErrorHandler,
 } from "./errorHandlers";
 import usersRouter from "./api/users";
+import messagesRouter from "./api/messages";
+import chatsRouter from "./api/chats";
 import { AppUser, UserDocument } from "./api/users/types";
 import googleStrategy from "./lib/auth/google";
 import passport from "passport";
@@ -25,6 +27,8 @@ server.use(express.json());
 server.use(passport.initialize());
 
 server.use("/users", usersRouter);
+server.use("/chats", chatsRouter);
+server.use("/messages", messagesRouter);
 
 server.use(badRequestHandler);
 server.use(unauthorizedErrorHandler);
