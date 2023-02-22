@@ -11,7 +11,7 @@ import {
 } from "./errorHandlers";
 import usersRouter from "./api/users";
 import { AppUser, UserDocument } from "./api/users/types";
-import googleStrategy from "./lib/auth/google.js";
+import googleStrategy from "./lib/auth/google";
 import passport from "passport";
 
 const server = express();

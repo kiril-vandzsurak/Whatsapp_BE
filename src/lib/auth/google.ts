@@ -9,7 +9,7 @@ const googleStrategy = new GoogleStrategy(
     clientSecret: process.env.GOOGLE_SECRET,
     callbackURL: `${process.env.BE_URL}/users/googleRedirect`,
   },
-  async (_, __, profile, passportNext) => {
+  async (_: any, __: any, profile: any, passportNext: any) => {
     try {
       const { email, name } = profile._json;
       const user = await UserModel.findOne({ email });
