@@ -21,8 +21,8 @@ server.use(express.json());
 const port = process.env.PORT || 3001;
 
 server.use("/users", usersRouter);
-server.use("/", chatsRouter);
-server.use("/chat", messagesRouter);
+server.use("/chats", chatsRouter);
+server.use("/messages", messagesRouter);
 
 server.use(badRequestHandler);
 server.use(unauthorizedErrorHandler);
