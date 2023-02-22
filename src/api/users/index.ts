@@ -45,7 +45,8 @@ usersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
 
 usersRouter.get("/me", JWTAuthMiddleware, async (req, res, next) => {
   try {
-    const user = await UserModel.findById(req.user?._id);
+    const data = await req.json();
+    const user = await UserModel.findById(data.user?._id);
     res.send(user);
   } catch (error) {
     next(error);
@@ -54,8 +55,9 @@ usersRouter.get("/me", JWTAuthMiddleware, async (req, res, next) => {
 
 usersRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
   try {
+    const data = await req.json();
     const updatedUser = await UserModel.findByIdAndUpdate(
-      req.user?._id,
+      data.user?._id,
       req.body,
       {
         new: true,
@@ -70,7 +72,8 @@ usersRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
 
 usersRouter.delete("/me", JWTAuthMiddleware, async (req, res, next) => {
   try {
-    await UserModel.findByIdAndDelete(req.user?._id);
+    const data = await req.json();
+    await UserModel.findByIdAndDelete(data.user?._id);
     res.status(204).send();
   } catch (error) {
     next(error);

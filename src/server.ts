@@ -46,6 +46,7 @@ declare global {
   namespace Express {
     export interface Request {
       user?: Partial<UserDocument>;
+      json(): Record<string, any>;
     }
   }
 }
