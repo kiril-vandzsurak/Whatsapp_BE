@@ -10,6 +10,8 @@ import {
   genericErrorHandler,
 } from "./errorHandlers";
 import usersRouter from "./api/users";
+import messagesRouter from "./api/messages";
+import chatsRouter from "./api/chats";
 
 const server = express();
 
@@ -19,6 +21,8 @@ server.use(express.json());
 const port = process.env.PORT || 3001;
 
 server.use("/users", usersRouter);
+server.use("/chats", chatsRouter);
+server.use("/messages", messagesRouter);
 
 server.use(badRequestHandler);
 server.use(unauthorizedErrorHandler);
