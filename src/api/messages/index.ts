@@ -2,7 +2,7 @@ import express from "express";
 import MessageModel from "./model";
 import ChatsModel from "../chats/model";
 import createHttpError from "http-errors";
-import { JWTAuthMiddleware, UserRequest } from "../../lib/auth/jwtAuth";
+import { JWTAuthMiddleware, UserWithRequest } from "../../lib/auth/jwtAuth";
 
 const messagesRouter = express.Router();
 
@@ -11,7 +11,7 @@ const messagesRouter = express.Router();
 messagesRouter.post(
   "/:chatId/message",
   JWTAuthMiddleware,
-  async (req: UserRequest, res, next) => {
+  async (req: UserWithRequest, res, next) => {
     try {
       const chat = await ChatsModel.findById(req.params.chatId);
       if (chat) {
@@ -51,7 +51,7 @@ messagesRouter.post(
 messagesRouter.get(
   "/:chatId",
   JWTAuthMiddleware,
-  async (req: UserRequest, res, next) => {
+  async (req: UserWithRequest, res, next) => {
     try {
       const chat = await ChatsModel.findById(req.params.chatId).populate({
         path: "messages",
