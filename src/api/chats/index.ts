@@ -1,14 +1,14 @@
 import express from "express";
 import createHttpError from "http-errors";
 import ChatsModel from "./model";
-import { JWTAuthMiddleware, UserRequest } from "../../lib/auth/jwtAuth";
+import { JWTAuthMiddleware, UserWithRequest } from "../../lib/auth/jwtAuth";
 
 const chatsRouter = express.Router();
 
 chatsRouter.get(
   "/me/chats",
   JWTAuthMiddleware,
-  async (req: UserRequest, res, next) => {
+  async (req: UserWithRequest, res, next) => {
     try {
       //Returns all the chats in which the user is a member.
       const chats = await ChatsModel.find(
@@ -28,7 +28,7 @@ chatsRouter.get(
 chatsRouter.post(
   "/me/chats",
   JWTAuthMiddleware,
-  async (req: UserRequest, res, next) => {
+  async (req: UserWithRequest, res, next) => {
     try {
       if (req.body.receiver) {
         const chats = await ChatsModel.find({
@@ -60,7 +60,7 @@ chatsRouter.post(
 chatsRouter.delete(
   "/me/:chatid",
   JWTAuthMiddleware,
-  async (req: UserRequest, res, next) => {
+  async (req: UserWithRequest, res, next) => {
     try {
       const updatedChat = await ChatsModel.findByIdAndUpdate(
         req.params.chatid,

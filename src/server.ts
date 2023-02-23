@@ -45,12 +45,3 @@ mongoose.connection.on("connected", () => {
     console.log(`Server is running on port ${port}`);
   });
 });
-
-declare global {
-  namespace Express {
-    export interface Request {
-      user?: Partial<UserDocument>;
-      json(): Record<string, any>;
-    }
-  }
-}
