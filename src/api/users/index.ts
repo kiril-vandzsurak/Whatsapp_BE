@@ -12,7 +12,9 @@ usersRouter.post("/register", async (req, res, next) => {
     const { _id } = await newUser.save();
     const payload = { _id: newUser._id, name: newUser.name };
     const accessToken = await createAccessToken(payload);
-    res.status(201).send({ accessToken, _id });
+    res
+      .status(201)
+      .send({ accessToken, _id, message: "You have successfuly registered" });
   } catch (error) {
     next(error);
   }
