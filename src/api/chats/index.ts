@@ -16,7 +16,7 @@ chatsRouter.get(
           members: { $in: [req.user?._id] },
         },
         { messages: 0, __v: 0 }
-      );
+      ).populate({ path: "members" });
       res.send(chats);
       //NO chat history provided.
     } catch (error) {

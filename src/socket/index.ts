@@ -1,3 +1,4 @@
+import { Socket } from "socket.io";
 import MessagesModel from "../api/messages/model";
 interface payload {
   username: String;
@@ -18,6 +19,11 @@ interface message {
   };
 }
 
+interface privateMessage {
+  content: String;
+  receiver: String;
+}
+
 let onlineUsers: user[] = [];
 
 export const newConnectionHandler = (newClient: any) => {
@@ -31,7 +37,9 @@ export const newConnectionHandler = (newClient: any) => {
 
   newClient.on("sendMessage", async (message: message) => {
     newClient.broadcast.emit("newMessage", message);
-    const newMessage = new MessagesModel(message);
-    const { _id } = await newMessage.save();
+  });
+
+  newClient.on("privateMessage", (payload: privateMessage) => {
+    newClient.to(payload.receiver).emit(payload.content);
   });
 };
