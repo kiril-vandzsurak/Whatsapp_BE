@@ -2,8 +2,6 @@ import { Socket } from "socket.io";
 import MessagesModel from "../api/messages/model";
 interface payload {
   username: String;
-  email: String;
-  password: String;
 }
 
 interface user {
@@ -22,6 +20,7 @@ interface message {
 interface privateMessage {
   content: String;
   receiver: String;
+  createdAt: String;
 }
 
 let onlineUsers: user[] = [];
@@ -31,6 +30,7 @@ export const newConnectionHandler = (newClient: any) => {
 
   newClient.on("setUsername", (payload: payload) => {
     onlineUsers.push({ username: payload.username, socketId: newClient.id });
+    console.log(onlineUsers);
   });
 
   newClient.emit("loggedIn", onlineUsers);
@@ -40,6 +40,13 @@ export const newConnectionHandler = (newClient: any) => {
   });
 
   newClient.on("privateMessage", (payload: privateMessage) => {
-    newClient.to(payload.receiver).emit(payload.content);
+    const index = onlineUsers.findIndex(
+      (user) => user.username === payload.receiver
+    );
+    if (index !== -1) {
+      const receiver = onlineUsers[index];
+      newClient.to(receiver.socketId).emit(payload.content);
+      console.log(payload.content);
+    }
   });
 };
